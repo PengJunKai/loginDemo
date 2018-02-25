@@ -2,20 +2,22 @@ package com.peng.service;
 
 import com.peng.mapper.UserMapper;
 import com.peng.model.User;
-import com.peng.utils.DateKit;
 import com.peng.vo.UserVO;
-import org.apache.commons.lang3.time.DateUtils;
+import org.apache.commons.net.smtp.SMTPClient;
+import org.apache.commons.net.smtp.SMTPReply;
+import org.xbill.DNS.Lookup;
+import org.xbill.DNS.Record;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xbill.DNS.Type;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by PengJK on 2018/1/18.
@@ -41,6 +43,12 @@ public class UserService {
         String sha256 = getSHA256StrJava(password.toString());
 
         user.setPassword(sha256);
+
+        if(isEmail(userVO.getRegisterEmail())) {
+            user.setRegisterEmail(userVO.getRegisterEmail());
+        } else {
+            return "邮箱错误";
+        }
 
         try {
             userMapper.insert(user);
@@ -111,5 +119,78 @@ public class UserService {
         return stringBuffer.toString();
     }
 
+    public boolean isEmail(String email) {
+        if(!email.matches("[\\w\\.\\-]+@([\\w\\-]+\\.)+[\\w\\-]+")) {
+            return false;
+        }
+        String host = "";
+        String hostName = email.split("@")[1];
 
+        Record[] result = null;
+        SMTPClient client = new SMTPClient();
+        try{
+            Lookup lookup = new Lookup(hostName, Type.MX);
+            lookup.run();
+            if(lookup.getResult() != Lookup.SUCCESSFUL) {
+                logger.error("邮箱("+email+")验证未通过,未查找到对应的MX记录");
+            } else {
+                result = lookup.getAnswers();
+            }
+            for(int i = 0;i<result.length;i++) {
+                host = result[i].getAdditionalName().toString();
+                logger.debug("SMTPClient try connect to host:"+host);
+
+                client.connect(host);
+
+                if(!SMTPReply.isPositiveCompletion(client.getReplyCode())) {
+                    client.disconnect();
+                    continue;
+                } else {
+                    logger.debug("找到MX记录:"+hostName);
+                    logger.debug("建立链接成功："+hostName);
+                    break;
+                }
+            }
+            logger.debug("SMTPClient ReplyString:"+client.getReplyString());
+            String emailSuffix="163.com";
+            String emailPrefix="ranguisheng";
+            String fromEmail = emailPrefix+"@"+emailSuffix;
+            //Login to the SMTP server by sending the HELO command with the given hostname as an argument.
+            //Before performing any mail commands, you must first login.
+            //尝试和SMTP服务器建立连接,发送一条消息给SMTP服务器
+            client.login(emailPrefix);
+            logger.debug("SMTPClient login:"+emailPrefix+"...");
+            logger.debug("SMTPClient ReplyString:"+client.getReplyString());
+
+            //Set the sender of a message using the SMTP MAIL command,
+            //specifying a reverse relay path.
+            //The sender must be set first before any recipients may be specified,
+            //otherwise the mail server will reject your commands.
+            //设置发送者，在设置接受者之前必须要先设置发送者
+            client.setSender(fromEmail);
+            logger.debug("设置发送者 :"+fromEmail);
+            logger.debug("SMTPClient ReplyString:"+client.getReplyString());
+
+            //Add a recipient for a message using the SMTP RCPT command,
+            //specifying a forward relay path. The sender must be set first before any recipients may be specified,
+            //otherwise the mail server will reject your commands.
+            //设置接收者,在设置接受者必须先设置发送者，否则SMTP服务器会拒绝你的命令
+            client.addRecipient(email);
+            logger.debug("设置接收者:"+email);
+            logger.debug("SMTPClient ReplyString:"+client.getReplyString());
+            logger.debug("SMTPClient ReplyCode："+client.getReplyCode()+"(250表示正常)");
+            if (250 == client.getReplyCode()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                client.disconnect();
+            } catch (IOException e) {
+
+            }
+        }
+        return false;
+    }
 }

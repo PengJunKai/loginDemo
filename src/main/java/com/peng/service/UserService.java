@@ -2,22 +2,26 @@ package com.peng.service;
 
 import com.peng.mapper.UserMapper;
 import com.peng.model.User;
+import com.peng.utils.StrKit;
 import com.peng.vo.UserVO;
 import org.apache.commons.net.smtp.SMTPClient;
 import org.apache.commons.net.smtp.SMTPReply;
 import org.xbill.DNS.Lookup;
 import org.xbill.DNS.Record;
+import org.xbill.DNS.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xbill.DNS.Type;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by PengJK on 2018/1/18.
@@ -33,9 +37,9 @@ public class UserService {
     public String add(UserVO userVO) {
         User user = new User();
         user.setUserName(userVO.getUserName());
-        Date creteDate = new Date();
-        user.setCreateDate(creteDate);
-        String salt = String.valueOf(creteDate.getTime());
+        Date createDate = new Date();
+        user.setCreateDate(createDate);
+        String salt = String.valueOf(createDate.getTime());
         user.setSalt(salt);
 
         StringBuilder password = new StringBuilder(userVO.getPassword()).append(salt);
@@ -80,6 +84,24 @@ public class UserService {
         }
     }
 
+    public String resetPassword(UserVO userVO) {
+        User user = new User();
+        user.setUserName(userVO.getUserName());
+        user = userMapper.selectOne(user);
+        if(user == null) {
+            return "未查询到此用户";
+        }
+
+        String secretKey = UUID.randomUUID().toString(); // 密钥
+        Long invalidDate = System.currentTimeMillis() + 30 * 60 * 1000;// 30分钟后过期
+        user.setSecretKey(secretKey);
+        user.setInvalidDate(invalidDate);
+        userMapper.updateById(user);
+
+        sendEmail(user);
+        return "成功";
+    }
+
     /**
      *  利用java原生的摘要实现SHA256加密
      * @param str 加密后的报文
@@ -119,8 +141,21 @@ public class UserService {
         return stringBuffer.toString();
     }
 
-    public boolean isEmail(String email) {
-        if(!email.matches("[\\w\\.\\-]+@([\\w\\-]+\\.)+[\\w\\-]+")) {
+    /**
+     * 验证邮箱
+     * @param email
+     * @return
+     */
+    private boolean isEmail(String email) {
+        if(StrKit.isBlank(email)) {
+            return false;
+        }
+        String RULE_EMAIL = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
+        //正则表达式的模式
+        Pattern p = Pattern.compile(RULE_EMAIL);
+        //正则表达式的匹配器
+        Matcher m = p.matcher(email);
+        if(!m.matches()) {
             return false;
         }
         String host = "";
@@ -192,5 +227,13 @@ public class UserService {
             }
         }
         return false;
+    }
+
+    /**
+     * 发送修改密码链接
+     * @param user
+     */
+    private void sendEmail(User user) {
+
     }
 }

@@ -35,6 +35,12 @@ public class User<T extends Model> extends Model<T> implements Serializable{
     @TableField(value = "registeremail")
     private String registerEmail;
 
+    @TableField(value = "secretkey")
+    private String secretKey;
+
+    @TableField(value = "invaliddate")
+    private Long invalidDate;
+
     public Long getUuid() {
         return uuid;
     }
@@ -85,6 +91,22 @@ public class User<T extends Model> extends Model<T> implements Serializable{
 
     public void setRegisterEmail(String registerEmail) {
         this.registerEmail = registerEmail;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public Long getInvalidDate() {
+        return invalidDate;
+    }
+
+    public void setInvalidDate(Long invalidDate) {
+        this.invalidDate = invalidDate;
     }
 
     @Override

@@ -23,6 +23,9 @@ public class UserVO {
     @ApiModelProperty(value = "注册邮箱")
     private String registerEmail;
 
+    @ApiModelProperty(value = "密匙")
+    private String secretKey;
+
     public String getUserName() {
         return userName;
     }
@@ -55,4 +58,11 @@ public class UserVO {
         this.registerEmail = registerEmail;
     }
 
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
 }

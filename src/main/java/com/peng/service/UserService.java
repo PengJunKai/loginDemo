@@ -84,7 +84,7 @@ public class UserService {
         }
     }
 
-    public String resetPassword(UserVO userVO) {
+    public String getSecretKey(UserVO userVO) {
         User user = new User();
         user.setUserName(userVO.getUserName());
         user = userMapper.selectOne(user);
@@ -92,7 +92,7 @@ public class UserService {
             return "未查询到此用户";
         }
 
-        String secretKey = UUID.randomUUID().toString(); // 密钥
+        String secretKey = UUID.randomUUID().toString().replaceAll("-",""); // 密钥
         Long invalidDate = System.currentTimeMillis() + 30 * 60 * 1000;// 30分钟后过期
         user.setSecretKey(secretKey);
         user.setInvalidDate(invalidDate);
@@ -100,6 +100,35 @@ public class UserService {
 
         sendEmail(user);
         return "成功";
+    }
+
+    public String resetPassword(UserVO userVO) {
+        User user = new User();
+        user.setUserName(userVO.getUserName());
+        user = userMapper.selectOne(user);
+        if(user == null) {
+            return "未查询到此用户";
+        }
+        if(!user.getSecretKey().equals(userVO.getSecretKey())) {
+            return "密匙不匹配，请重新获取正确的链接";
+        }
+        if(user.getInvalidDate()<System.currentTimeMillis()) {
+            return "链接已超时，请重新获取";
+        }
+
+        StringBuilder password = new StringBuilder(userVO.getPassword()).append(user.getSalt());
+
+        String sha256 = getSHA256StrJava(password.toString());
+
+        user.setPassword(sha256);
+
+        try {
+            userMapper.updateById(user);
+            return "修改成功";
+        } catch (Exception e) {
+            logger.debug(e.toString());
+            return "error";
+        }
     }
 
     /**

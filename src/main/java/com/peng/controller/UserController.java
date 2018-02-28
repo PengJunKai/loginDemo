@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by PengJK on 2018/1/8.
  */
@@ -39,11 +41,11 @@ public class UserController {
 
     @ApiOperation(value = "发送修改密码链接")
     @PostMapping("/getSecretKey")
-    public String getSecretKey(UserVO userVO) {
+    public String getSecretKey(HttpServletRequest request, UserVO userVO) {
         if(StrKit.isBlank(userVO.getUserName())) {
             return "账号不能为空";
         }
-        return userService.getSecretKey(userVO);
+        return userService.getSecretKey(request,userVO);
     }
 
     @ApiOperation(value = "修改密码")

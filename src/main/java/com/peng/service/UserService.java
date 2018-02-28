@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -31,6 +32,9 @@ public class UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private MailService mailService;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -84,7 +88,7 @@ public class UserService {
         }
     }
 
-    public String getSecretKey(UserVO userVO) {
+    public String getSecretKey(HttpServletRequest request, UserVO userVO) {
         User user = new User();
         user.setUserName(userVO.getUserName());
         user = userMapper.selectOne(user);
@@ -98,8 +102,25 @@ public class UserService {
         user.setInvalidDate(invalidDate);
         userMapper.updateById(user);
 
-        sendEmail(user);
-        return "成功";
+        String basePath = new StringBuffer(request.getScheme()).append("://").append(request.getServerName()).append(":")
+                .append(request.getServerPort()).append(request.getContextPath()).append("/").toString();
+
+        String resetPassHref = new StringBuffer(basePath).append("checkLink?sid=").append("user.getSecretKey()").append("&userName=")
+                .append(user.getUserName()).toString();
+
+        String emailContent = new StringBuffer("请勿回复本邮件.点击下面的链接,重设密码<br/><a href=")
+                .append(resetPassHref).append(" target='_BLANK'>").append(resetPassHref)
+                .append("</a>  或者    <a href=").append(resetPassHref)
+                .append(" target='_BLANK'>点击我重新设置密码</a>")
+                .append("<br/>tips:本邮件超过30分钟,链接将会失效，需要重新申请'找回密码'")
+                .append("\t").append(resetPassHref).toString();
+
+        if(mailService.sendHtmlMail(user.getRegisterEmail(),"修改密码",emailContent)) {
+            return "成功";
+        }
+
+        return "失败";
+
     }
 
     public String resetPassword(UserVO userVO) {
@@ -256,13 +277,5 @@ public class UserService {
             }
         }
         return false;
-    }
-
-    /**
-     * 发送修改密码链接
-     * @param user
-     */
-    private void sendEmail(User user) {
-
     }
 }

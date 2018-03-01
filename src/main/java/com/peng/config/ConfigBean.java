@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class ConfigBean {
     private String name;
     private String want;
+    private String fromMailAddr;
 
     public String getName() {
         return name;
@@ -26,5 +27,13 @@ public class ConfigBean {
 
     public void setWant(String want) {
         this.want = want;
+    }
+
+    public String getFromMailAddr() {
+        return fromMailAddr;
+    }
+
+    public void setFromMailAddr(String fromMailAddr) {
+        this.fromMailAddr = fromMailAddr;
     }
 }

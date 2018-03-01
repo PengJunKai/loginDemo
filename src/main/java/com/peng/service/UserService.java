@@ -105,7 +105,7 @@ public class UserService {
         String basePath = new StringBuffer(request.getScheme()).append("://").append(request.getServerName()).append(":")
                 .append(request.getServerPort()).append(request.getContextPath()).append("/").toString();
 
-        String resetPassHref = new StringBuffer(basePath).append("checkLink?sid=").append("user.getSecretKey()").append("&userName=")
+        String resetPassHref = new StringBuffer(basePath).append("checkLink?sid=").append(user.getSecretKey()).append("&userName=")
                 .append(user.getUserName()).toString();
 
         String emailContent = new StringBuffer("请勿回复本邮件.点击下面的链接,重设密码<br/><a href=")

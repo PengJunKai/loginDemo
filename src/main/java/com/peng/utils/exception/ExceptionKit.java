@@ -1,4 +1,4 @@
-package com.peng.utils;
+package com.peng.utils.exception;
 
 import java.lang.reflect.InvocationTargetException;
 

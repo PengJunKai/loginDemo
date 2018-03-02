@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModel;
 @ApiModel(value = "成功响应",description = "成功响应通用对象")
 public class SuccessTip<T> extends Tip{
 
-    private final Integer SUCCESS_CODE = 200;
+    private final String SUCCESS_CODE = "200";
 
     public SuccessTip(){
         super(null);

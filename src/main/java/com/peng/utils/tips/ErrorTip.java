@@ -1,6 +1,7 @@
 package com.peng.utils.tips;
 
-import com.peng.utils.ExceptionKit;
+import com.peng.utils.exception.ExceptionKit;
+import com.peng.utils.exception.ExceptionType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -13,21 +14,19 @@ public class ErrorTip<T> extends Tip<T>  {
     @ApiModelProperty(value = "堆栈信息",readOnly = true)
     private String exMsg;
 
-    private final Integer ERROR_CODE = 200;
-
     public ErrorTip() {
         super(null);
-        super.setCode(ERROR_CODE);
+        super.setCode(ExceptionType.RUNTIME_ERROR.getCode());
         super.setMessage("操作失败");
     }
 
     public ErrorTip(String message) {
         super(null);
-        super.setCode(ERROR_CODE);
+        super.setCode(ExceptionType.RUNTIME_ERROR.getCode());
         super.setMessage(message);
     }
 
-    public ErrorTip(Integer code, String message, Exception e) {
+    public ErrorTip(String code, String message, Exception e) {
         super(null);
         super.setCode(code);
         super.setMessage(message);

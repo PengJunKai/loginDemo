@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 public abstract class Tip<T> {
 
     @ApiModelProperty(value = "响应状态码",readOnly = true)
-    private Integer code;
+    private String code;
     @ApiModelProperty(value = "响应主体",readOnly = true)
     private T body;
     @ApiModelProperty(value = "响应信息",readOnly = true)
@@ -23,11 +23,11 @@ public abstract class Tip<T> {
         this.body = body;
     }
 
-    public Integer getCode() {
+    protected String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    protected void setCode(String code) {
         this.code = code;
     }
 

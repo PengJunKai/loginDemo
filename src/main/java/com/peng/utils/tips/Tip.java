@@ -23,11 +23,11 @@ public abstract class Tip<T> {
         this.body = body;
     }
 
-    protected String getCode() {
+    public String getCode() {
         return code;
     }
 
-    protected void setCode(String code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

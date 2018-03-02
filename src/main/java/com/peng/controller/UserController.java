@@ -25,21 +25,18 @@ public class UserController {
 
     @ApiOperation(value = "新增")
     @PostMapping("/add")
-    public Tip add(@RequestBody UserVO userVO) {
+    public Tip<UserVO> add(@RequestBody UserVO userVO) {
         if(StrKit.isBlank(userVO.getUserName()) || StrKit.isBlank(userVO.getPassword())) {
             return R.error("账号密码不能为空");
         }
-        String message = userService.add(userVO);
-        if("200".equals(message)) {
-            return R.Success("注册成功");
-        } else {
-            return R.error(message);
-        }
+        userVO = userService.add(userVO);
+        return R.success(userVO,"注册成功");
+
     }
 
     @ApiOperation(value = "验证")
     @PostMapping("/validate")
-    public Tip validate(UserVO userVO) {
+    public Tip validate(@RequestBody UserVO userVO) {
         if(StrKit.isBlank(userVO.getUserName()) || StrKit.isBlank(userVO.getPassword())) {
             return R.error("账号密码不能为空");
         }
@@ -67,7 +64,7 @@ public class UserController {
 
     @ApiOperation(value = "修改密码")
     @PostMapping("/resetPassword")
-    public Tip resetPassword(UserVO userVO) {
+    public Tip resetPassword(@RequestBody UserVO userVO) {
         if(StrKit.isBlank(userVO.getUserName()) || StrKit.isBlank(userVO.getPassword())) {
             return R.error("账号密码不能为空");
         }

@@ -3,6 +3,8 @@ package com.peng.service;
 import com.peng.mapper.UserMapper;
 import com.peng.model.User;
 import com.peng.utils.StrKit;
+import com.peng.utils.exception.AppException;
+import com.peng.utils.exception.ExceptionType;
 import com.peng.vo.UserVO;
 import org.apache.commons.net.smtp.SMTPClient;
 import org.apache.commons.net.smtp.SMTPReply;
@@ -38,7 +40,7 @@ public class UserService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public String add(UserVO userVO) {
+    public UserVO add(UserVO userVO) {
         User user = new User();
         user.setUserName(userVO.getUserName());
         Date createDate = new Date();
@@ -55,15 +57,15 @@ public class UserService {
         if(isEmail(userVO.getRegisterEmail())) {
             user.setRegisterEmail(userVO.getRegisterEmail());
         } else {
-            return "邮箱错误";
+            throw new AppException(ExceptionType.OPERATE_ERROR, "邮箱错误");
         }
 
         try {
             userMapper.insert(user);
-            return "200";
+            return userVO;
         } catch (Exception e) {
             logger.debug(e.toString());
-            return "注册失败";
+            throw new AppException(ExceptionType.RUNTIME_ERROR, e);
         }
 
     }

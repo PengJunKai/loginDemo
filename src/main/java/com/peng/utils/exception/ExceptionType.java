@@ -25,9 +25,11 @@ public enum ExceptionType {
     /**
      * 系统出错
      */
-    RUNTIME_ERROR("Runtime Error", "系统异常!")
-
-    ;
+    RUNTIME_ERROR("Runtime Error", "系统异常!"),
+    /**
+     * 操作错误
+     */
+    OPERATE_ERROR("Operate Error", "操作错误！");
 
     ExceptionType(String code, String message) {
         this.code = code;

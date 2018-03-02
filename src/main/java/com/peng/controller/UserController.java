@@ -2,6 +2,8 @@ package com.peng.controller;
 
 import com.peng.service.UserService;
 import com.peng.utils.StrKit;
+import com.peng.utils.tips.R;
+import com.peng.utils.tips.Tip;
 import com.peng.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,40 +25,60 @@ public class UserController {
 
     @ApiOperation(value = "新增")
     @PostMapping("/add")
-    public String add(@RequestBody UserVO userVO) {
+    public Tip add(@RequestBody UserVO userVO) {
         if(StrKit.isBlank(userVO.getUserName()) || StrKit.isBlank(userVO.getPassword())) {
-            return "账号或密码不能为空";
+            return R.error("账号密码不能为空");
         }
-        return userService.add(userVO);
+        String message = userService.add(userVO);
+        if("200".equals(message)) {
+            return R.Success("注册成功");
+        } else {
+            return R.error(message);
+        }
     }
 
     @ApiOperation(value = "验证")
     @PostMapping("/validate")
-    public String validate(UserVO userVO) {
+    public Tip validate(UserVO userVO) {
         if(StrKit.isBlank(userVO.getUserName()) || StrKit.isBlank(userVO.getPassword())) {
-            return "账号密码不能为空";
+            return R.error("账号密码不能为空");
         }
-        return userService.validate(userVO);
+        String message = userService.validate(userVO);
+        if("200".equals(message)) {
+            return R.success();
+        } else {
+            return R.error(message);
+        }
     }
 
     @ApiOperation(value = "发送修改密码链接")
     @PostMapping("/getSecretKey")
-    public String getSecretKey(HttpServletRequest request, UserVO userVO) {
+    public Tip getSecretKey(HttpServletRequest request, UserVO userVO) {
         if(StrKit.isBlank(userVO.getUserName())) {
-            return "账号不能为空";
+            return R.error("账号不能为空");
         }
-        return userService.getSecretKey(request,userVO);
+        String message = userService.getSecretKey(request,userVO);
+        if("200".equals(message)) {
+            return R.success();
+        } else {
+            return R.error(message);
+        }
     }
 
     @ApiOperation(value = "修改密码")
     @PostMapping("/resetPassword")
-    public String resetPassword(UserVO userVO) {
+    public Tip resetPassword(UserVO userVO) {
         if(StrKit.isBlank(userVO.getUserName()) || StrKit.isBlank(userVO.getPassword())) {
-            return "账号或密码不能为空";
+            return R.error("账号密码不能为空");
         }
         if(StrKit.isBlank(userVO.getSecretKey())) {
-            return "密匙不能为空";
+            return R.error("密匙不能为空");
         }
-        return userService.resetPassword(userVO);
+        String message = userService.resetPassword(userVO);
+        if("200".equals(message)) {
+            return R.success();
+        } else {
+            return R.error(message);
+        }
     }
 }

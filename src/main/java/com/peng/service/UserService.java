@@ -60,10 +60,10 @@ public class UserService {
 
         try {
             userMapper.insert(user);
-            return "注册成功";
+            return "200";
         } catch (Exception e) {
             logger.debug(e.toString());
-            return "error";
+            return "注册失败";
         }
 
     }
@@ -81,7 +81,7 @@ public class UserService {
             String sha256 = getSHA256StrJava(password.toString());
 
             if(sha256.equals(user.getPassword())) {
-                return "验证成功";
+                return "200";
             } else {
                 return "用户名或密码错误";
             }
@@ -116,10 +116,10 @@ public class UserService {
                 .append("\t").append(resetPassHref).toString();
 
         if(mailService.sendHtmlMail(user.getRegisterEmail(),"修改密码",emailContent)) {
-            return "成功";
+            return "200";
         }
 
-        return "失败";
+        return "邮件发送失败";
 
     }
 
@@ -145,10 +145,10 @@ public class UserService {
 
         try {
             userMapper.updateById(user);
-            return "修改成功";
+            return "200";
         } catch (Exception e) {
             logger.debug(e.toString());
-            return "error";
+            return "修改失败";
         }
     }
 

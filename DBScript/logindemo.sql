@@ -14,7 +14,8 @@ CREATE TABLE `user`  (
   `registeremail` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `secretkey` varchar(48) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `invaliddate` bigint(32) NULL DEFAULT NULL,
-  PRIMARY KEY (`uuid`) USING BTREE
+  PRIMARY KEY (`uuid`) USING BTREE,
+  UNIQUE INDEX `username`(`username`) USING BTREE COMMENT '登录名不可重复'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

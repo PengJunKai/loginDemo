@@ -43,6 +43,11 @@ public class UserService {
     public UserVO add(UserVO userVO) {
         User user = new User();
         user.setUserName(userVO.getUserName());
+
+        User queryUser = userMapper.selectOne(user);
+        if(queryUser != null) {
+            throw new AppException(ExceptionType.OPERATE_ERROR, "用户名不能重复");
+        }
         Date createDate = new Date();
         user.setCreateDate(createDate);
         String salt = String.valueOf(createDate.getTime());

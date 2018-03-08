@@ -29,4 +29,8 @@ public class R {
     public static Tip error(String message) {
         return new ErrorTip(message);
     }
+
+    public static Tip error(String errorCode,String message) {
+        return new ErrorTip(errorCode,message);
+    }
 }

@@ -26,6 +26,12 @@ public class ErrorTip<T> extends Tip<T>  {
         super.setMessage(message);
     }
 
+    public ErrorTip(String code,String message) {
+        super(null);
+        super.setCode(code);
+        super.setMessage(message);
+    }
+
     public ErrorTip(String code, String message, Exception e) {
         super(null);
         super.setCode(code);

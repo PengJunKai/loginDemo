@@ -31,8 +31,12 @@ public class ImageCodeKit {
         Random random = new Random();
         g.setColor(getRandColor(200, 250));
         g.fillRect(0, 0, width, height);
+
+        int fontWidth = width / 4;// 字体的宽度
+        int fontHeight = height - 5;// 字体的高度
+        int codeY = height - 8;
         //设定字体
-        g.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        g.setFont(new Font("Fixedsys", Font.BOLD, fontHeight));
         // 随机产生168条干扰线
         g.setColor(getRandColor(160, 200));
         for (int i = 0; i < 168; i++) {
@@ -51,7 +55,7 @@ public class ImageCodeKit {
             g.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));
             //直接生成
             String str = strEnsure.substring(i, i + 1);
-            g.drawString(str, 13 * i + 6, 16);
+            g.drawString(str, i*fontWidth+3, codeY);
         }
         // 释放图形上下文
         g.dispose();

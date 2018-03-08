@@ -24,6 +24,8 @@ public class FilterRegister {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         // 设置你要允许的网站域名，如果全允许则设为*
+
+
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");

@@ -84,7 +84,7 @@ public class UserController {
         if("200".equals(message)) {
             return R.success();
         } else {
-            return R.error(message);
+            return R.error(ExceptionType.OPERATE_ERROR.getCode(),message);
         }
     }
 

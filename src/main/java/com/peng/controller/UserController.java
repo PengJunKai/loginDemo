@@ -34,7 +34,7 @@ public class UserController {
     private UserService userService;
 
     @ApiOperation(value = "获取验证码")
-    @RequestMapping("/imageCode")
+    @GetMapping("/imageCode")
     public String imageCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
         OutputStream os = response.getOutputStream();
         Map<String,Object> map = ImageCodeKit.getImageCode(160, 50, os);

@@ -4,9 +4,16 @@ com:
     want: home
     fromMailAddr: 644710708@qq.com
 
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost/eureka/
+
 server:
+  #主页
+  homePage: api.html
   #端口
-  port: 80
+  port: 8081
   #上下文路径
   contextPath: /login
   #内置tomcat编码
@@ -14,13 +21,15 @@ server:
     uriEncoding: utf-8
 
 spring:
+  application:
+    name: login
   http:
     converters:
       preferred-json-mapper: fastjson
   datasource:
     url: jdbc:mysql://localhost:3306/logindemo?useUnicode=true
-    username: root
-    password: admin
+    username: ocean
+    password: sobey
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
     initialSize: 1

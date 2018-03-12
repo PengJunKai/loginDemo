@@ -4,10 +4,12 @@ com:
     want: home
     fromMailAddr: 644710708@qq.com
 
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost/eureka/
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost/eureka/
+  instance:
+    statusPageUrlPath: /api.html
 
 server:
   #主页
@@ -28,8 +30,8 @@ spring:
       preferred-json-mapper: fastjson
   datasource:
     url: jdbc:mysql://localhost:3306/logindemo?useUnicode=true
-    username: ocean
-    password: sobey
+    username: root
+    password: admin
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
     initialSize: 1
@@ -64,4 +66,7 @@ spring:
     properties.mail.smtp.socketFactory.fallback: false
     default-encoding: UTF-8
     port: 465
+
+swagger:
+  base-package: com.peng.controller
 

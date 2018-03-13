@@ -23,15 +23,14 @@ server:
     uriEncoding: utf-8
 
 spring:
+  profiles:
+    active: dev
   application:
     name: login
   http:
     converters:
       preferred-json-mapper: fastjson
   datasource:
-    url: jdbc:mysql://localhost:3306/logindemo?useUnicode=true
-    username: root
-    password: admin
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
     initialSize: 1
@@ -54,18 +53,6 @@ spring:
     filters: stat,wall,slf4j
     # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-
-  mail:
-    host: smtp.qq.com #邮箱服务器地址
-    username: 644710708@qq.com #用户名
-    password: xkwadbnymuyzbbeb    #密码
-    properties.mail.smtp.auth: true
-    properties.mail.smtp.starttls.enable: true
-    properties.mail.smtp.socketFactory.port: 465
-    properties.mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
-    properties.mail.smtp.socketFactory.fallback: false
-    default-encoding: UTF-8
-    port: 465
 
 swagger:
   base-package: com.peng.controller

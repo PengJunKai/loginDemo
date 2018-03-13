@@ -1,0 +1,20 @@
+
+
+spring:
+  datasource:
+    url:
+    username:
+    password:
+
+  mail:
+    host: smtp.qq.com #邮箱服务器地址
+    username: #用户名
+    password: #密码
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.starttls.enable: true
+    properties.mail.smtp.socketFactory.port: 465
+    properties.mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
+    properties.mail.smtp.socketFactory.fallback: false
+    default-encoding: UTF-8
+    port: 465
+

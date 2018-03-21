@@ -1,5 +1,6 @@
 package com.peng.service;
 
+import com.peng.constant.rightsType;
 import com.peng.mapper.UserMapper;
 import com.peng.model.User;
 import com.peng.utils.StrKit;
@@ -48,6 +49,13 @@ public class UserService {
         if(queryUser != null) {
             throw new AppException(ExceptionType.OPERATE_ERROR, "用户名不能重复");
         }
+
+        if(isEmail(userVO.getRegisterEmail())) {
+            user.setRegisterEmail(userVO.getRegisterEmail());
+        } else {
+            throw new AppException(ExceptionType.OPERATE_ERROR, "邮箱错误");
+        }
+
         Date createDate = new Date();
         user.setCreateDate(createDate);
         String salt = String.valueOf(createDate.getTime());
@@ -59,14 +67,12 @@ public class UserService {
 
         user.setPassword(sha256);
 
-        if(isEmail(userVO.getRegisterEmail())) {
-            user.setRegisterEmail(userVO.getRegisterEmail());
-        } else {
-            throw new AppException(ExceptionType.OPERATE_ERROR, "邮箱错误");
-        }
+        //注册用户默认为普通用户
+        user.setRights(rightsType.User);
 
         try {
             userMapper.insert(user);
+            userVO.setRights(rightsType.User);
             return userVO;
         } catch (Exception e) {
             logger.debug(e.toString());

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.peng.constant.rightsType;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -40,6 +41,9 @@ public class User<T extends Model> extends Model<T> implements Serializable{
 
     @TableField(value = "invaliddate")
     private Long invalidDate;
+
+    @TableField(value = "rights")
+    private rightsType rights;
 
     public Long getUuid() {
         return uuid;
@@ -107,6 +111,14 @@ public class User<T extends Model> extends Model<T> implements Serializable{
 
     public void setInvalidDate(Long invalidDate) {
         this.invalidDate = invalidDate;
+    }
+
+    public rightsType getRights() {
+        return rights;
+    }
+
+    public void setRights(rightsType rights) {
+        this.rights = rights;
     }
 
     @Override

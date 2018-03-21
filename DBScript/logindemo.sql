@@ -20,4 +20,6 @@ CREATE TABLE `user`  (
 
 SET FOREIGN_KEY_CHECKS = 1;
 
+-- 2018.3.21
+-- 新增用户权限字段
 ALTER TABLE `user` ADD COLUMN `rights` VARCHAR(8) COMMENT '权限';

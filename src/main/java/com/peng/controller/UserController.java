@@ -80,12 +80,8 @@ public class UserController {
         if(StrKit.isBlank(userVO.getUserName()) || StrKit.isBlank(userVO.getPassword())) {
             return R.error(ExceptionType.OPERATE_ERROR.getCode(),"账号密码不能为空");
         }
-        String message = userService.validate(userVO);
-        if("200".equals(message)) {
-            return R.success();
-        } else {
-            return R.error(ExceptionType.OPERATE_ERROR.getCode(),message);
-        }
+        userVO = userService.validate(userVO);
+        return R.success(userVO);
     }
 
     @ApiOperation(value = "发送修改密码链接")

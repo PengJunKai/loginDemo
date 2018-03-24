@@ -81,22 +81,23 @@ public class UserService {
 
     }
 
-    public String validate(UserVO userVO) {
+    public UserVO validate(UserVO userVO) {
 
         User user = new User();
         user.setUserName(userVO.getUserName());
         user = userMapper.selectOne(user);
         if(user == null) {
-            return "用户不存在";
+            throw new AppException(ExceptionType.OPERATE_ERROR, "用户不存在");
         } else {
             StringBuilder password = new StringBuilder(userVO.getPassword()).append(user.getSalt());
 
             String sha256 = getSHA256StrJava(password.toString());
 
             if(sha256.equals(user.getPassword())) {
-                return "200";
+                userVO.setRights(user.getRights());
+                return userVO;
             } else {
-                return "用户名或密码错误";
+                throw new AppException(ExceptionType.OPERATE_ERROR, "用户名或密码错误");
             }
         }
     }

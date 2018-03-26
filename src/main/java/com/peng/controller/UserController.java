@@ -44,13 +44,13 @@ public class UserController {
         try {
             ImageIO.write((BufferedImage) map.get("image"), "JPEG", os);
         } catch (IOException e) {
-            return "";
+            return null;
         }
         return null;
     }
 
     @ApiOperation(value = "新增")
-    @PostMapping("/add")
+    @PostMapping()
     public Tip add(@RequestBody UserVO userVO, String checkCode, HttpSession session) {
         if(StrKit.isBlank(userVO.getUserName()) || StrKit.isBlank(userVO.getPassword())) {
             return R.error(ExceptionType.OPERATE_ERROR.getCode(),"账号密码不能为空");

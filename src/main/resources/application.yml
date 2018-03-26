@@ -54,6 +54,33 @@ spring:
     # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 
+###################  mybatis-plus配置  ###################
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  #model类路径
+  typeAliasesPackage: com.peng.model
+  #自定义字段类型转换路径
+  typeHandlersPackage: com.peng.dao.typehaneler
+  global-config:
+    #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
+    id-type: 3
+    #驼峰下划线转换
+    db-column-underline: false
+    #刷新mapper 调试神器
+    refresh-mapper: true
+    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    field-strategy: 2
+  configuration:
+    map-underscore-to-camel-case: false
+    #配置的缓存的全局开关
+    cache-enabled: true
+    #延时加载的开关
+    lazyLoadingEnabled: true
+    #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
+    multipleResultSetsEnabled: true
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句,调试用
+
+
 swagger:
   base-package: com.peng.controller
 

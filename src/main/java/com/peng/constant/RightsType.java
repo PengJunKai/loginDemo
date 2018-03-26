@@ -3,7 +3,7 @@ package com.peng.constant;
 /**
  * Created by PengJK on 2018/3/21.
  */
-public enum  rightsType {
+public enum RightsType {
 
     Master("Master","站长"),
 
@@ -18,7 +18,7 @@ public enum  rightsType {
     private String code;
     private String name;
 
-    rightsType(String code, String name) {
+    RightsType(String code, String name) {
         this.code = code;
         this.name = name;
     }

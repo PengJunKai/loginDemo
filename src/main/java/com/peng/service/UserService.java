@@ -1,6 +1,6 @@
 package com.peng.service;
 
-import com.peng.constant.rightsType;
+import com.peng.constant.RightsType;
 import com.peng.mapper.UserMapper;
 import com.peng.model.User;
 import com.peng.utils.StrKit;
@@ -68,11 +68,11 @@ public class UserService {
         user.setPassword(sha256);
 
         //注册用户默认为普通用户
-        user.setRights(rightsType.User);
+        user.setRights(RightsType.User);
 
         try {
             userMapper.insert(user);
-            userVO.setRights(rightsType.User);
+            userVO.setRights(RightsType.User);
             return userVO;
         } catch (Exception e) {
             logger.debug(e.toString());

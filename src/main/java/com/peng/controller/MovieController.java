@@ -1,5 +1,6 @@
 package com.peng.controller;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.peng.model.Movie;
 import com.peng.service.MovieService;
 import com.peng.utils.BeanKit;
@@ -48,13 +49,15 @@ public class MovieController {
 
     @ApiOperation(value = "删除电影信息")
     @DeleteMapping
-    public void delete(Long uuid) {
-
+    public Tip delete(Long uuid) {
+        return R.success();
     }
 
     @ApiOperation(value = "查询电影")
     @GetMapping("/search")
-    public void search(String movieName,String movieTag) {
+    public Page<Movie> search(String movieName,String movieTag,int size,int start) {
+
+        return movieService.search(size,start);
 
     }
 

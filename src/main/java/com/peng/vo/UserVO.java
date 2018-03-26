@@ -1,6 +1,6 @@
 package com.peng.vo;
 
-import com.peng.constant.rightsType;
+import com.peng.constant.RightsType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -28,7 +28,7 @@ public class UserVO {
     private String secretKey;
 
     @ApiModelProperty(value = "权限")
-    private rightsType rights;
+    private RightsType rights;
 
     public String getUserName() {
         return userName;
@@ -70,11 +70,11 @@ public class UserVO {
         this.secretKey = secretKey;
     }
 
-    public rightsType getRights() {
+    public RightsType getRights() {
         return rights;
     }
 
-    public void setRights(rightsType rights) {
+    public void setRights(RightsType rights) {
         this.rights = rights;
     }
 }

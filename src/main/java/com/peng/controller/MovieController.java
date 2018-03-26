@@ -1,6 +1,8 @@
 package com.peng.controller;
 
+import com.peng.model.Movie;
 import com.peng.service.MovieService;
+import com.peng.utils.BeanKit;
 import com.peng.utils.tips.R;
 import com.peng.utils.tips.Tip;
 import com.peng.vo.MovieVO;
@@ -8,8 +10,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by PengJK on 2018/3/24.
@@ -24,33 +24,31 @@ public class MovieController {
 
     @ApiOperation(value = "新增电影")
     @PostMapping
-    public Tip add(@RequestBody MovieVO movieVO) throws InvocationTargetException, IllegalAccessException {
-
-        movieVO = movieService.add(movieVO);
-
-        return R.success(movieVO);
+    public Tip add(@RequestBody MovieVO movieVO) {
+        Movie movie = movieService.add(toPO(movieVO));
+        return R.success(toVO(movie));
     }
 
     @ApiOperation(value = "获取电影信息")
     @GetMapping
-    public Tip get(Long uuid) throws InvocationTargetException, IllegalAccessException {
-        MovieVO movieVO = movieService.get(uuid);
-        if(movieVO == null) {
+    public Tip get(Long uuid) {
+        Movie movie = movieService.get(uuid);
+        if(movie == null) {
             return R.error("uuid错误");
         }
-        return R.success(movieVO);
+        return R.success(toVO(movie));
     }
 
     @ApiOperation(value = "更新电影信息")
     @PutMapping
-    public Tip update(@RequestBody MovieVO movieVO) throws InvocationTargetException, IllegalAccessException {
-        movieVO = movieService.update(movieVO);
-        return R.success(movieVO);
+    public Tip update(@RequestBody MovieVO movieVO) {
+        Movie movie = movieService.update(toPO(movieVO));
+        return R.success(toVO(movie));
     }
 
     @ApiOperation(value = "删除电影信息")
     @DeleteMapping
-    public void delete() {
+    public void delete(Long uuid) {
 
     }
 
@@ -58,6 +56,18 @@ public class MovieController {
     @GetMapping("/search")
     public void search(String movieName,String movieTag) {
 
+    }
+
+    private MovieVO toVO(Movie movie) {
+        MovieVO movieVO = new MovieVO();
+        BeanKit.copyTo(movie,movieVO);
+        return movieVO;
+    }
+
+    private Movie toPO(MovieVO movieVO) {
+        Movie movie = new Movie();
+        BeanKit.copyTo(movieVO,movie);
+        return movie;
     }
 
 }

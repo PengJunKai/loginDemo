@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Created by 64471 on 2018/3/24.
+ * Created by PengJK on 2018/3/24.
  */
 @Service
 public class MovieService {
@@ -35,8 +35,8 @@ public class MovieService {
         return movie;
     }
 
-    public Page<Movie> search(int size, int start) {
-        Page<Movie> page = new Page<>(start, size);
+    public Page<Movie> search(int current, int size) {
+        Page<Movie> page = new Page<>(current, size);
         List<Movie> movieList = movieMapper.selectMovieList(page);
         return page.setRecords(movieList);
     }

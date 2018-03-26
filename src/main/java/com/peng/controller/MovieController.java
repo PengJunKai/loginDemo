@@ -55,9 +55,9 @@ public class MovieController {
 
     @ApiOperation(value = "查询电影")
     @GetMapping("/search")
-    public Page<Movie> search(String movieName,String movieTag,int size,int start) {
+    public Page<Movie> search(String movieName,String movieTag,int current,int size) {
 
-        return movieService.search(size,start);
+        return movieService.search(current,size);
 
     }
 

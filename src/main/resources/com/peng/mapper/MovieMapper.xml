@@ -3,6 +3,11 @@
 <mapper namespace="com.peng.mapper.MovieMapper">
 
     <select id="selectMovieList" resultType="com.peng.model.Movie">
-        SELECT * FROM `movie`
+        SELECT `uuid`,`moviename`,`movietag`,`movieposter` FROM `movie`
+        <where>
+            <if test="moviename != null and moviename != ''"> AND `moviename` = #{moviename}</if>
+            <if test="movietag != null and movietag != ''"> AND `movietag` LIKE concat('%',#{movietag},'%')</if>
+        </where>
+
     </select>
 </mapper>

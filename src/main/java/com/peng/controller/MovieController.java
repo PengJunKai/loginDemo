@@ -55,10 +55,10 @@ public class MovieController {
 
     @ApiOperation(value = "查询电影")
     @GetMapping("/search")
-    public Page<Movie> search(String movieName,String movieTag,int current,int size) {
-
-        return movieService.search(current,size);
-
+    public Page<Movie> search(String movieName,String movieTag,
+                              @RequestParam(defaultValue = "1") int current,
+                              @RequestParam(defaultValue = "12") int size) {
+        return movieService.search(movieName,movieTag,current,size);
     }
 
     private MovieVO toVO(Movie movie) {

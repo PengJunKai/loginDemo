@@ -39,3 +39,7 @@ CREATE TABLE `movie`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- 2018.3.27
+-- 新增电影海报字段
+ALTER TABLE `movie` ADD COLUMN `movieposter` VARCHAR(256) NULL AFTER `movietag`;

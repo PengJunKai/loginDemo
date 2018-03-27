@@ -35,9 +35,10 @@ public class MovieService {
         return movie;
     }
 
-    public Page<Movie> search(int current, int size) {
+    public Page<Movie> search(String movieName, String movieTag, int current, int size) {
         Page<Movie> page = new Page<>(current, size);
-        List<Movie> movieList = movieMapper.selectMovieList(page);
+        List<Movie> movieList = movieMapper.selectMovieList(page,movieName,movieTag);
         return page.setRecords(movieList);
     }
+
 }

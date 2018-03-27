@@ -20,6 +20,9 @@ public class Movie {
     @TableField(value = "movietag")
     private String movieTag;
 
+    @TableField(value = "moiveposter")
+    private String moviePoster;
+
     @TableField(value = "moviesynopsis")
     private String movieSynopsis;
 
@@ -48,6 +51,14 @@ public class Movie {
 
     public void setMovieTag(String movieTag) {
         this.movieTag = movieTag;
+    }
+
+    public String getMoviePoster() {
+        return moviePoster;
+    }
+
+    public void setMoviePoster(String moviePoster) {
+        this.moviePoster = moviePoster;
     }
 
     public String getMovieSynopsis() {

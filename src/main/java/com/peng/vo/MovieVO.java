@@ -18,6 +18,9 @@ public class MovieVO {
     @ApiModelProperty(value = "电影Tag")
     private String movieTag;
 
+    @ApiModelProperty(value = "电影海报")
+    private String moviePoster;
+
     @ApiModelProperty(value = "电影简介")
     private String movieSynopsis;
 
@@ -46,6 +49,14 @@ public class MovieVO {
 
     public void setMovieTag(String movieTag) {
         this.movieTag = movieTag;
+    }
+
+    public String getMoviePoster() {
+        return moviePoster;
+    }
+
+    public void setMoviePoster(String moviePoster) {
+        this.moviePoster = moviePoster;
     }
 
     public String getMovieSynopsis() {

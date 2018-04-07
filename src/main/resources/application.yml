@@ -7,7 +7,7 @@ com:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost/eureka/
+      defaultZone: http://106.14.186.71:8080/eureka/
   instance:
     statusPageUrlPath: /api.html
 
@@ -63,7 +63,7 @@ mybatis-plus:
   typeHandlersPackage: com.peng.dao.typehaneler
   global-config:
     #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
-    id-type: 3
+    id-type: 2
     #驼峰下划线转换
     db-column-underline: false
     #刷新mapper 调试神器

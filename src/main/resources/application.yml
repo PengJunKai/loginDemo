@@ -54,6 +54,12 @@ spring:
     # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 
+###################  日志配置  ###################
+logging:
+  path: ../logs/login/
+  file: login.log
+  level.root: info
+
 ###################  mybatis-plus配置  ###################
 mybatis-plus:
   mapper-locations: classpath*:/com/peng/mapper/*Mapper.xml

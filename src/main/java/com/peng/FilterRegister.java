@@ -1,5 +1,8 @@
 package com.peng;
 
+import com.alibaba.druid.support.http.WebStatFilter;
+import com.peng.constant.Resources;
+import com.peng.filter.RestFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,32 +40,31 @@ public class FilterRegister {
     /**
      * druid：WebStatFilter
      * @return
-     *//*
+     */
     @Bean
     public FilterRegistrationBean druidStatFilter(){
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
-        *//* 过滤规则 *//*
-        filterRegistrationBean.addUrlPatterns("*//*");
-        *//* 忽略资源 *//*
-        filterRegistrationBean.addInitParameter("exclusions",Resources.RESOURCES_PATH);
+        /* 过滤规则 */
+        filterRegistrationBean.addUrlPatterns("/*");
+        /* 忽略资源 */
+        filterRegistrationBean.addInitParameter("exclusions", Resources.RESOURCES_PATH);
         filterRegistrationBean.setOrder(1);
         return filterRegistrationBean;
     }
 
-    *//**
+    /**
      * rest性能监测
      * @return
-     *//*
+     */
     @Bean
     public FilterRegistrationBean restFilter(){
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new RestFilter());
-        *//* 过滤规则 *//*
-        filterRegistrationBean.addUrlPatterns("*//*");
-        *//* 忽略资源 *//*
+        /* 过滤规则 */
+        filterRegistrationBean.addUrlPatterns("/*");
+        /* 忽略资源 */
         filterRegistrationBean.addInitParameter("exclusions",Resources.RESOURCES_PATH);
         filterRegistrationBean.setOrder(3);
         return filterRegistrationBean;
     }
-*/
 
 }

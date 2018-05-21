@@ -90,3 +90,11 @@ mybatis-plus:
 swagger:
   base-package: com.peng.controller
 
+#jwt接口密钥生成##################################################
+jwt:
+  enabled: true
+  #http请求头所需要的字段
+  header: Authorization
+  #单位:天
+  expiration: 1
+

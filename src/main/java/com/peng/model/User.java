@@ -26,6 +26,9 @@ public class User<T extends Model> extends Model<T> implements Serializable{
 
     @TableField(value = "password")
     private String password;
+    
+    @TableField(value = "usertoken")
+    private String userToken;
 
     @TableField(value = "createdate")
     private Date createDate;
@@ -72,7 +75,15 @@ public class User<T extends Model> extends Model<T> implements Serializable{
     public void setPassword(String password) {
         this.password = password;
     }
-
+    
+    public String getUserToken(){
+        return userToken;
+    }
+    
+    public void setUserToken( String userToken ){
+        this.userToken = userToken;
+    }
+    
     public Date getCreateDate() {
         return createDate;
     }

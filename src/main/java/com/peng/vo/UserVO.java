@@ -17,6 +17,9 @@ public class UserVO {
 
     @ApiModelProperty(value = "用户密码")
     private String password;
+    
+    @ApiModelProperty(value = "token")
+    private String userToken;
 
     @ApiModelProperty(value = "创建时间")
     private Date createDate;
@@ -45,7 +48,15 @@ public class UserVO {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    
+    public String getUserToken(){
+        return userToken;
+    }
+    
+    public void setUserToken( String userToken ){
+        this.userToken = userToken;
+    }
+    
     public Date getCreateDate() {
         return createDate;
     }

@@ -86,7 +86,7 @@ public class StrKit {
         }
         for (int i = 0; i < length; i++) {
             // 只要有一个非空字符即为非空字符串
-            if (false == Character.isWhitespace(str.charAt(i))) {
+            if (! Character.isWhitespace(str.charAt(i))) {
                 return false;
             }
         }
@@ -103,7 +103,7 @@ public class StrKit {
      * @return 是否为非空
      */
     public static boolean notBlank(String str) {
-        return false == isBlank(str);
+        return ! isBlank(str);
     }
 
     /**
@@ -112,35 +112,35 @@ public class StrKit {
      * @param strs 字符串列表
      * @return 是否包含空字符串
      */
-//    public static boolean hasBlank(String... strs) {
-//        if (CollectionKit.isEmpty(strs)) {
-//            return true;
-//        }
-//        for (String str : strs) {
-//            if (isBlank(str)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//
-//    /**
-//     * 给定所有字符串是否为空白
-//     *
-//     * @param strs 字符串
-//     * @return 所有字符串是否为空白
-//     */
-//    public static boolean isAllBlank(String... strs) {
-//        if (CollectionKit.isEmpty(strs)) {
-//            return true;
-//        }
-//        for (String str : strs) {
-//            if (notBlank(str)) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
+    public static boolean hasBlank(String... strs) {
+        if (CollectionKit.isEmpty(strs)) {
+            return true;
+        }
+        for (String str : strs) {
+            if (isBlank(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 给定所有字符串是否为空白
+     *
+     * @param strs 字符串
+     * @return 所有字符串是否为空白
+     */
+    public static boolean isAllBlank(String... strs) {
+        if (CollectionKit.isEmpty(strs)) {
+            return true;
+        }
+        for (String str : strs) {
+            if (notBlank(str)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     // ------------------------------------------------------------------------ Empty
 
@@ -211,37 +211,37 @@ public class StrKit {
      * @param strs 字符串列表
      * @return 是否包含空字符串
      */
-//    public static boolean hasEmpty(String... strs) {
-//        if (CollectionKit.isEmpty(strs)) {
-//            return true;
-//        }
-//
-//        for (String str : strs) {
-//            if (isEmpty(str)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//
-//    /**
-//     * 是否全部为空字符串
-//     *
-//     * @param strs 字符串列表
-//     * @return 是否全部为空字符串
-//     */
-//    public static boolean isAllEmpty(String... strs) {
-//        if (CollectionKit.isEmpty(strs)) {
-//            return true;
-//        }
-//
-//        for (String str : strs) {
-//            if (isNotEmpty(str)) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
+    public static boolean hasEmpty(String... strs) {
+        if (CollectionKit.isEmpty(strs)) {
+            return true;
+        }
+
+        for (String str : strs) {
+            if (isEmpty(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 是否全部为空字符串
+     *
+     * @param strs 字符串列表
+     * @return 是否全部为空字符串
+     */
+    public static boolean isAllEmpty(String... strs) {
+        if (CollectionKit.isEmpty(strs)) {
+            return true;
+        }
+
+        for (String str : strs) {
+            if (isNotEmpty(str)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     // ------------------------------------------------------------------------ Trim
 
@@ -611,7 +611,7 @@ public class StrKit {
         if (isEmpty(str) || isEmpty(prefix)) {
             return str;
         }
-        if (false == str.startsWith(prefix)) {
+        if (! str.startsWith(prefix)) {
             str = prefix + str;
         }
         return str;
@@ -628,7 +628,7 @@ public class StrKit {
         if (isEmpty(str) || isEmpty(suffix)) {
             return str;
         }
-        if (false == str.endsWith(suffix)) {
+        if (! str.endsWith(suffix)) {
             str += suffix;
         }
         return str;
@@ -673,7 +673,7 @@ public class StrKit {
         if (str == null) {
             return null;
         }
-        List<String> list = new ArrayList<String>(limit == 0 ? 16 : limit);
+        List<String> list = new ArrayList<>(limit == 0 ? 16 : limit);
         if (limit == 1) {
             list.add(str);
             return list;
@@ -826,7 +826,6 @@ public class StrKit {
         if (str.length() < (prefix.length() + suffix.length())) {
             return false;
         }
-
         return str.startsWith(prefix) && str.endsWith(suffix);
     }
 
@@ -945,21 +944,47 @@ public class StrKit {
      * @param values   参数值
      * @return 格式化后的文本
      */
-//    public static String format(String template, Object... values) {
-//        if (CollectionKit.isEmpty(values) || isBlank(template)) {
-//            return template;
-//        }
-//        Matcher matcher = Pattern.compile("\\{.*?\\}").matcher(template);
-//        StringBuffer buffer = new StringBuffer();
-//        int i = 0;
-//        while (matcher.find() && i < values.length) {
-//            Object matchervalue = values[i];
-//            matcher.appendReplacement(buffer, String.valueOf(matchervalue));
-//            i++;
-//        }
-//        matcher.appendTail(buffer);
-//        return buffer.toString();
-//    }
+    public static String format(String template, Object... values) {
+        if (CollectionKit.isEmpty(values) || isBlank(template)) {
+            return template;
+        }
+        Matcher matcher = Pattern.compile("\\{.*?\\}").matcher(template);
+        StringBuffer buffer = new StringBuffer();
+        int i = 0;
+        while (matcher.find() && i < values.length) {
+            Object matchervalue = values[i];
+            matcher.appendReplacement(buffer, String.valueOf(matchervalue));
+            i++;
+        }
+        matcher.appendTail(buffer);
+        return buffer.toString();
+
+//		final StringBuilder sb = new StringBuilder();
+//		final int length = template.length();
+//
+//		int valueIndex = 0;
+//		char currentChar;
+//		for (int i = 0; i < length; i++) {
+//			if (valueIndex >= values.length) {
+//				sb.append(sub(template, i, length));
+//				break;
+//			}
+//			currentChar = template.charAt(i);
+//			if (currentChar == '{') {
+//				final char nextChar = template.charAt(++i);
+//				if (nextChar == '}') {
+//					sb.append(values[valueIndex++]);
+//				} else {
+//					sb.append('{').append(nextChar);
+//				}
+//			} else {
+//				sb.append(currentChar);
+//			}
+//
+//		}
+//
+//		return sb.toString();
+    }
 
     /**
      * 格式化文本，使用 {varName} 占位<br>
@@ -1176,9 +1201,9 @@ public class StrKit {
      * @param suffix 后缀
      * @return 包装后的字符串
      */
-//    public static String wrap(String str, String prefix, String suffix) {
-//        return format("{}{}{}", prefix, str, suffix);
-//    }
+    public static String wrap(String str, String prefix, String suffix) {
+        return format("{}{}{}", prefix, str, suffix);
+    }
 
     /**
      * 指定字符串是否被包装
@@ -1323,40 +1348,40 @@ public class StrKit {
      * @param charset 字符集，如果此字段为空，则解码的结果取决于平台
      * @return 编码后的字节码
      */
-//    public static byte[] encode(String str, String charset) {
-//        if (str == null) {
-//            return null;
-//        }
-//
-//        if (isBlank(charset)) {
-//            return str.getBytes();
-//        }
-//        try {
-//            return str.getBytes(charset);
-//        } catch (UnsupportedEncodingException e) {
-//            throw new RuntimeException(format("Charset [{}] unsupported!", charset));
-//        }
-//    }
-//
-//    /**
-//     * 解码字节码
-//     *
-//     * @param data    字符串
-//     * @param charset 字符集，如果此字段为空，则解码的结果取决于平台
-//     * @return 解码后的字符串
-//     */
-//    public static String decode(byte[] data, String charset) {
-//        if (data == null) {
-//            return null;
-//        }
-//
-//        if (isBlank(charset)) {
-//            return new String(data);
-//        }
-//        try {
-//            return new String(data, charset);
-//        } catch (UnsupportedEncodingException e) {
-//            throw new RuntimeException(format("Charset [{}] unsupported!", charset));
-//        }
-//    }
+    public static byte[] encode(String str, String charset) {
+        if (str == null) {
+            return null;
+        }
+
+        if (isBlank(charset)) {
+            return str.getBytes();
+        }
+        try {
+            return str.getBytes(charset);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(format("Charset [{}] unsupported!", charset));
+        }
+    }
+
+    /**
+     * 解码字节码
+     *
+     * @param data    字符串
+     * @param charset 字符集，如果此字段为空，则解码的结果取决于平台
+     * @return 解码后的字符串
+     */
+    public static String decode(byte[] data, String charset) {
+        if (data == null) {
+            return null;
+        }
+
+        if (isBlank(charset)) {
+            return new String(data);
+        }
+        try {
+            return new String(data, charset);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(format("Charset [{}] unsupported!", charset));
+        }
+    }
 }

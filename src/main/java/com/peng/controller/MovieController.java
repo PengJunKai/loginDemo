@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.peng.model.Movie;
 import com.peng.service.MovieService;
 import com.peng.utils.BeanKit;
+import com.peng.utils.exception.ExceptionType;
 import com.peng.utils.tips.R;
 import com.peng.utils.tips.Tip;
 import com.peng.vo.MovieVO;
@@ -33,6 +34,9 @@ public class MovieController {
     @ApiOperation(value = "获取电影信息")
     @GetMapping
     public Tip get(Long uuid) {
+        if(uuid == null) {
+            return R.error(ExceptionType.OPERATE_ERROR.getCode(),"电影uuid不能为空");
+        }
         Movie movie = movieService.get(uuid);
         if(movie == null) {
             return R.error("uuid错误");

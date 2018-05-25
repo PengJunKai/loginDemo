@@ -14,7 +14,7 @@ public class LogindemoApplication {
 
 	public static void main(String[] args) {
 		//热部署开关
-		//System.setProperty("spring.devtools.restart.enabled", "false");
+		System.setProperty("spring.devtools.restart.enabled", "true");
 		SpringApplication.run(LogindemoApplication.class, args);
 	}
 

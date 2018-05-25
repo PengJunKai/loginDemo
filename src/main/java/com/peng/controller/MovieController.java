@@ -1,6 +1,7 @@
 package com.peng.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.peng.jwt.IgnoreJWT;
 import com.peng.model.Movie;
 import com.peng.service.MovieService;
 import com.peng.utils.BeanKit;
@@ -33,7 +34,8 @@ public class MovieController {
 
     @ApiOperation(value = "获取电影信息")
     @GetMapping
-    public Tip get(Long uuid) {
+    @IgnoreJWT
+    public Tip get(@RequestHeader(required = false) String Authorization,Long uuid) {
         if(uuid == null) {
             return R.error(ExceptionType.OPERATE_ERROR.getCode(),"电影uuid不能为空");
         }
@@ -59,7 +61,9 @@ public class MovieController {
 
     @ApiOperation(value = "查询电影")
     @GetMapping("/search")
-    public Page<Movie> search(String movieName,String movieTag,
+    @IgnoreJWT
+    public Page<Movie> search(@RequestHeader(required = false) String Authorization,
+                              String movieName,String movieTag,
                               @RequestParam(defaultValue = "1") int current,
                               @RequestParam(defaultValue = "12") int size) {
         return movieService.search(movieName,movieTag,current,size);

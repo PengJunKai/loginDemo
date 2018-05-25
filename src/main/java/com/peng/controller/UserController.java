@@ -1,6 +1,9 @@
 package com.peng.controller;
 
+import com.peng.jwt.IgnoreJWT;
+import com.peng.jwt.JwtTokenComponent;
 import com.peng.service.UserService;
+import com.peng.utils.CollectionKit;
 import com.peng.utils.ImageCodeKit;
 import com.peng.utils.StrKit;
 import com.peng.utils.exception.ExceptionType;
@@ -32,6 +35,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private JwtTokenComponent jwtTokenComponent;
 
     @ApiOperation(value = "获取验证码")
     @GetMapping("/imageCode")
@@ -76,11 +82,17 @@ public class UserController {
 
     @ApiOperation(value = "验证")
     @PostMapping("/validate")
-    public Tip validate(@RequestBody UserVO userVO) {
+    @IgnoreJWT
+    public Tip validate(@RequestHeader(required = false) String Authorization,@RequestBody UserVO userVO) {
         if(StrKit.isBlank(userVO.getUserName()) || StrKit.isBlank(userVO.getPassword())) {
             return R.error(ExceptionType.OPERATE_ERROR.getCode(),"账号密码不能为空");
         }
         userVO = userService.validate(userVO);
+        //生成token
+        //Map<String, Object> claims = CollectionKit.newHashMap( 2 );
+        final String randomKey = jwtTokenComponent.getRandomKey();
+        final String token = jwtTokenComponent.generateToken( userVO.getUuid().toString(), randomKey);
+        userVO.setUserToken( token );
         return R.success(userVO);
     }
 

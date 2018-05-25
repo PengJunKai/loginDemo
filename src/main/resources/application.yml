@@ -90,6 +90,19 @@ mybatis-plus:
 swagger:
   base-package: com.peng.controller
 
+  #授权参数
+  globalOperationParameters[0]:
+    #参数名
+    name: ${jwt.header}
+    #描述信息
+    description: token
+    #指定参数类型
+    modelRef: String
+    #指定参数存放位置,可选header,query,path,body.form
+    parameterType: header
+    #指定参数是否必传，true,false
+    required: true
+
 #jwt接口密钥生成##################################################
 jwt:
   enabled: true

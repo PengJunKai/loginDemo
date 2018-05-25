@@ -11,6 +11,8 @@ import java.util.Date;
  */
 @ApiModel(value = "用户")
 public class UserVO {
+    
+    private Long uuid;
 
     @ApiModelProperty(value = "用户名")
     private String userName;
@@ -32,7 +34,15 @@ public class UserVO {
 
     @ApiModelProperty(value = "权限")
     private RightsType rights;
-
+    
+    public Long getUuid(){
+        return uuid;
+    }
+    
+    public void setUuid( Long uuid ){
+        this.uuid = uuid;
+    }
+    
     public String getUserName() {
         return userName;
     }

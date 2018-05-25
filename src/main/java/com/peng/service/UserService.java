@@ -3,6 +3,7 @@ package com.peng.service;
 import com.peng.constant.RightsType;
 import com.peng.mapper.UserMapper;
 import com.peng.model.User;
+import com.peng.utils.BeanKit;
 import com.peng.utils.StrKit;
 import com.peng.utils.exception.AppException;
 import com.peng.utils.exception.ExceptionType;
@@ -85,7 +86,7 @@ public class UserService {
 
         User user = new User();
         user.setUserName(userVO.getUserName());
-        user = userMapper.selectOne(user);
+        user = userMapper.selectOne( user );
         if(user == null) {
             throw new AppException(ExceptionType.OPERATE_ERROR, "用户不存在");
         } else {
@@ -94,7 +95,8 @@ public class UserService {
             String sha256 = getSHA256StrJava(password.toString());
 
             if(sha256.equals(user.getPassword())) {
-                userVO.setRights(user.getRights());
+                BeanKit.copyTo(user,userVO);
+                userVO.setPassword(userVO.getPassword());
                 return userVO;
             } else {
                 throw new AppException(ExceptionType.OPERATE_ERROR, "用户名或密码错误");

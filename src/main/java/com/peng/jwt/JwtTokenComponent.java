@@ -144,12 +144,14 @@ public class JwtTokenComponent {
         //换算成秒
         expiration = expiration * 24 * 60 * 60;
         final Date expirationDate = new Date(createdDate.getTime() + expiration * 1000);
+        String a = jwtConfig.getSecret();
+        SignatureAlgorithm b = SignatureAlgorithm.HS512;
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(createdDate)
                 .setExpiration(expirationDate)
-                .signWith( SignatureAlgorithm.HS512, jwtConfig.getSecret())
+                .signWith( b, a)
                 .compact();
     }
 

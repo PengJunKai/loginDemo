@@ -17,7 +17,7 @@ public class JwtConfig {
     private String header = "Authorization";
 
     //jwt秘钥
-    private String secret = "yao";
+    private String secret = "mengyao";
     //单位天
     private Long expiration = 86400L;
 

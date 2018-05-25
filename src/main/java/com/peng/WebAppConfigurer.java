@@ -60,7 +60,7 @@ public class WebAppConfigurer extends WebMvcConfigurerAdapter {
 				// excludePathPatterns 用户排除拦截
 				//注册jwt
 				if (jwtConfig.isEnabled()) {
-						registry.addInterceptor(new JwtInterceptor()).addPathPatterns(Resources.token);
+						registry.addInterceptor(new JwtInterceptor()).excludePathPatterns(Resources.RESOURCES_PATH_ARRAY);
 				}
 				//这里注册全局接口访问性能日志
 				registry.addInterceptor(new RestInterceptor()).excludePathPatterns(Resources.RESOURCES_PATH_ARRAY);
